@@ -32,6 +32,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/mempool"
+
+	cmttypes "github.com/cometbft/cometbft/types"
 )
 
 type (
@@ -194,6 +196,9 @@ type BaseApp struct {
 	//
 	// SAFETY: it's safe to do if validators validate the total gas wanted in the `ProcessProposal`, which is the case in the default handler.
 	disableBlockGasMeter bool
+
+	// privValidator instance
+	privValidator cmttypes.PrivValidator
 }
 
 // NewBaseApp returns a reference to an initialized BaseApp. It accepts a
@@ -1170,4 +1175,15 @@ func (app *BaseApp) Close() error {
 	}
 
 	return errors.Join(errs...)
+}
+
+func (app *BaseApp) RegisterPrivValidator(privValidator cmttypes.PrivValidator) {
+	if app.sealed {
+		panic("RegisterPrivValidator() on sealed BaseApp")
+	}
+	app.privValidator = privValidator
+}
+
+func (app *BaseApp) GetPrivValidator(privValidator cmttypes.PrivValidator) {
+	return app.privValidator
 }

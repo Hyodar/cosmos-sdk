@@ -374,11 +374,14 @@ func startCmtNode(
 		return nil, cleanupFn, err
 	}
 
+	pvp := pvm.LoadOrGenFilePV(cfg.PrivValidatorKeyFile(), cfg.PrivValidatorStateFile())
+	app.RegisterPrivValidator(pvp)
+
 	cmtApp := NewCometABCIWrapper(app)
 	tmNode, err = node.NewNodeWithContext(
 		ctx,
 		cfg,
-		pvm.LoadOrGenFilePV(cfg.PrivValidatorKeyFile(), cfg.PrivValidatorStateFile()),
+		pvp,
 		nodeKey,
 		proxy.NewLocalClientCreator(cmtApp),
 		getGenDocProvider(cfg),
