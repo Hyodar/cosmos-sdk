@@ -18,7 +18,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/server/api"
 	"github.com/cosmos/cosmos-sdk/server/config"
 
-	baseapppv "github.com/cosmos/cosmos-sdk/baseapp/pv"
+	baseapppv "github.com/cosmos/cosmos-sdk/pv"
 )
 
 type (

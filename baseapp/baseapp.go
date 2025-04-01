@@ -25,7 +25,7 @@ import (
 	storetypes "cosmossdk.io/store/types"
 
 	"github.com/cosmos/cosmos-sdk/baseapp/oe"
-	baseapppv "github.com/cosmos/cosmos-sdk/baseapp/pv"
+	baseapppv "github.com/cosmos/cosmos-sdk/pv"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"

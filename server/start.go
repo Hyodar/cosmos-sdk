@@ -50,7 +50,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 
-	baseapppv "github.com/cosmos/cosmos-sdk/baseapp/pv"
+	baseapppv "github.com/cosmos/cosmos-sdk/pv"
 )
 
 const (
