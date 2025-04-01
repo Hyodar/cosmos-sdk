@@ -17,6 +17,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/server/api"
 	"github.com/cosmos/cosmos-sdk/server/config"
+
+	"github.com/cosmos/cosmos-sdk/baseapp"
 )
 
 type (
@@ -64,7 +66,7 @@ type (
 		Close() error
 
 		// RegisterPrivValidator registers the PrivValidator instance
-		RegisterPrivValidator(cmttypes.PrivValidator)
+		RegisterPrivValidator(baseapp.BaseAppPrivValidator)
 	}
 
 	// AppCreator is a function that allows us to lazily initialize an
