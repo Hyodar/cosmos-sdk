@@ -1184,6 +1184,6 @@ func (app *BaseApp) RegisterPrivValidator(privValidator cmttypes.PrivValidator) 
 	app.privValidator = privValidator
 }
 
-func (app *BaseApp) GetPrivValidator(privValidator cmttypes.PrivValidator) {
+func (app *BaseApp) GetPrivValidator() cmttypes.PrivValidator {
 	return app.privValidator
 }
