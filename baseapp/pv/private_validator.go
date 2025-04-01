@@ -15,6 +15,6 @@ type ArbitrarySignerPrivValidatorFilePV struct {
 	*pvm.FilePV
 }
 
-func (*ArbitrarySignerPrivValidatorFilePV pVal) SignBytes(bytes []byte) ([]byte, error) {
+func (pVal *ArbitrarySignerPrivValidatorFilePV) SignBytes(bytes []byte) ([]byte, error) {
 	return pVal.FilePV.Key.PrivKey.Sign(bytes)
 }
