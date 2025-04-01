@@ -25,6 +25,7 @@ import (
 	storetypes "cosmossdk.io/store/types"
 
 	"github.com/cosmos/cosmos-sdk/baseapp/oe"
+	baseapppv "github.com/cosmos/cosmos-sdk/baseapp/pv"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
@@ -32,9 +33,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/mempool"
-
-	cmttypes "github.com/cometbft/cometbft/types"
-	pvm "github.com/cometbft/cometbft/privval"
 )
 
 type (
@@ -199,7 +197,7 @@ type BaseApp struct {
 	disableBlockGasMeter bool
 
 	// privValidator instance
-	privValidator cmttypes.PrivValidator
+	privValidator baseapppv.ArbitrarySignerPrivValidator
 }
 
 // NewBaseApp returns a reference to an initialized BaseApp. It accepts a
@@ -1178,27 +1176,13 @@ func (app *BaseApp) Close() error {
 	return errors.Join(errs...)
 }
 
-type BaseAppPrivValidator interface {
-	cmttypes.PrivValidator
-
-	SignBytes(bytes []byte) ([]byte, error)
-}
-
-type BaseAppPrivValidatorFilePV struct {
-	*pvm.FilePV
-}
-
-func (*BaseAppPrivValidatorFilePV pv) SignBytes(bytes []byte) ([]byte, error) {
-	return pv.FilePV.Key.PrivKey.Sign(bytes)
-}
-
-func (app *BaseApp) RegisterPrivValidator(privValidator BaseAppPrivValidator) {
+func (app *BaseApp) RegisterPrivValidator(privValidator baseapppv.ArbitrarySignerPrivValidator) {
 	if app.sealed {
 		panic("RegisterPrivValidator() on sealed BaseApp")
 	}
 	app.privValidator = privValidator
 }
 
-func (app *BaseApp) GetPrivValidator() BaseAppPrivValidator {
+func (app *BaseApp) GetPrivValidator() baseapppv.ArbitrarySignerPrivValidator {
 	return app.privValidator
 }
