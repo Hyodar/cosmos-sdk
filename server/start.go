@@ -377,7 +377,7 @@ func startCmtNode(
 	}
 
 	pvp := pvm.LoadOrGenFilePV(cfg.PrivValidatorKeyFile(), cfg.PrivValidatorStateFile())
-	baseAppPvp := &sdk.BaseAppPrivValidatorFilePV{FilePV: pvp}
+	baseAppPvp := &sdk.ArbitrarySignerPrivValidatorFilePV{FilePV: pvp}
 	app.RegisterPrivValidator(baseAppPvp)
 
 	cmtApp := NewCometABCIWrapper(app)
