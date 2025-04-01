@@ -34,6 +34,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/mempool"
 
 	cmttypes "github.com/cometbft/cometbft/types"
+	pvm "github.com/cometbft/cometbft/privval"
 )
 
 type (
@@ -1177,13 +1178,27 @@ func (app *BaseApp) Close() error {
 	return errors.Join(errs...)
 }
 
-func (app *BaseApp) RegisterPrivValidator(privValidator cmttypes.PrivValidator) {
+type BaseAppPrivValidator interface {
+	cmttypes.PrivValidator
+
+	SignBytes(bytes []byte) ([]byte, error)
+}
+
+type BaseAppPrivValidatorFilePV struct {
+	*pvm.FilePV
+}
+
+func (*BaseAppPrivValidatorFilePV pv) SignBytes(bytes []byte) ([]byte, error) {
+	return pv.FilePV.Key.PrivKey.Sign(bytes)
+}
+
+func (app *BaseApp) RegisterPrivValidator(privValidator BaseAppPrivValidator) {
 	if app.sealed {
 		panic("RegisterPrivValidator() on sealed BaseApp")
 	}
 	app.privValidator = privValidator
 }
 
-func (app *BaseApp) GetPrivValidator() cmttypes.PrivValidator {
+func (app *BaseApp) GetPrivValidator() BaseAppPrivValidator {
 	return app.privValidator
 }
