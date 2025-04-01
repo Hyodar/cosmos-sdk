@@ -1,4 +1,4 @@
-package pv
+package types
 
 import (
 	cmttypes "github.com/cometbft/cometbft/types"

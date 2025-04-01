@@ -25,7 +25,6 @@ import (
 	storetypes "cosmossdk.io/store/types"
 
 	"github.com/cosmos/cosmos-sdk/baseapp/oe"
-	baseapppv "github.com/cosmos/cosmos-sdk/pv"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
@@ -197,7 +196,7 @@ type BaseApp struct {
 	disableBlockGasMeter bool
 
 	// privValidator instance
-	privValidator baseapppv.ArbitrarySignerPrivValidator
+	privValidator sdk.ArbitrarySignerPrivValidator
 }
 
 // NewBaseApp returns a reference to an initialized BaseApp. It accepts a
@@ -1176,13 +1175,13 @@ func (app *BaseApp) Close() error {
 	return errors.Join(errs...)
 }
 
-func (app *BaseApp) RegisterPrivValidator(privValidator baseapppv.ArbitrarySignerPrivValidator) {
+func (app *BaseApp) RegisterPrivValidator(privValidator sdk.ArbitrarySignerPrivValidator) {
 	if app.sealed {
 		panic("RegisterPrivValidator() on sealed BaseApp")
 	}
 	app.privValidator = privValidator
 }
 
-func (app *BaseApp) GetPrivValidator() baseapppv.ArbitrarySignerPrivValidator {
+func (app *BaseApp) GetPrivValidator() sdk.ArbitrarySignerPrivValidator {
 	return app.privValidator
 }

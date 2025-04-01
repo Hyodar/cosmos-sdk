@@ -50,7 +50,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 
-	baseapppv "github.com/cosmos/cosmos-sdk/pv"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 const (
@@ -377,7 +377,7 @@ func startCmtNode(
 	}
 
 	pvp := pvm.LoadOrGenFilePV(cfg.PrivValidatorKeyFile(), cfg.PrivValidatorStateFile())
-	baseAppPvp := &baseapppv.BaseAppPrivValidatorFilePV{FilePV: pvp}
+	baseAppPvp := &sdk.BaseAppPrivValidatorFilePV{FilePV: pvp}
 	app.RegisterPrivValidator(baseAppPvp)
 
 	cmtApp := NewCometABCIWrapper(app)
