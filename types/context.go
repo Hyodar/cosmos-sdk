@@ -323,7 +323,7 @@ func (c Context) WithHeaderInfo(headerInfo header.Info) Context {
 	return c
 }
 
-func (c Context) WithPrivValidator(privValidator ArbitrarySignerPrivValidatorFilePV) Context {
+func (c Context) WithPrivValidator(privValidator ArbitrarySignerPrivValidator) Context {
 	c.privValidator = privValidator
 	return c
 }
