@@ -491,12 +491,13 @@ func (app *BaseApp) setState(mode execMode, h cmtproto.Header) {
 		ms: ms,
 		ctx: sdk.NewContext(ms, h, false, app.logger).
 			WithStreamingManager(app.streamingManager).
-			WithHeaderInfo(headerInfo),
+			WithHeaderInfo(headerInfo).
+			WithPrivValidator(app.privValidator),
 	}
 
 	switch mode {
 	case execModeCheck:
-		baseState.SetContext(baseState.Context().WithIsCheckTx(true).WithMinGasPrices(app.minGasPrices))
+		baseState.SetContext(baseState.Context().WithIsCheckTx(true).WithMinGasPrices(app.minGasPrices).WithPrivValidator(app.privValidator))
 		app.checkState = baseState
 
 	case execModePrepareProposal:

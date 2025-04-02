@@ -65,6 +65,9 @@ type Context struct {
 	streamingManager     storetypes.StreamingManager
 	cometInfo            comet.BlockInfo
 	headerInfo           header.Info
+
+	// privValidator
+	privValidator ArbitrarySignerPrivValidator
 }
 
 // Proposed rename, not done to avoid API breakage
@@ -93,6 +96,7 @@ func (c Context) TransientKVGasConfig() storetypes.GasConfig    { return c.trans
 func (c Context) StreamingManager() storetypes.StreamingManager { return c.streamingManager }
 func (c Context) CometInfo() comet.BlockInfo                    { return c.cometInfo }
 func (c Context) HeaderInfo() header.Info                       { return c.headerInfo }
+func (c Context) PrivValidator() ArbitrarySignerPrivValidator   { return c.privValidator }
 
 // clone the header before returning
 func (c Context) BlockHeader() cmtproto.Header {
@@ -316,6 +320,11 @@ func (c Context) WithHeaderInfo(headerInfo header.Info) Context {
 	// Settime to UTC
 	headerInfo.Time = headerInfo.Time.UTC()
 	c.headerInfo = headerInfo
+	return c
+}
+
+func (c Context) WithPrivValidator(privValidator ArbitrarySignerPrivValidatorFilePV) Context {
+	c.privValidator = privValidator
 	return c
 }
 
